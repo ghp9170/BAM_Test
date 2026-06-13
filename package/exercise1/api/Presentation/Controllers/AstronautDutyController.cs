@@ -1,0 +1,50 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using StargateAPI.Application.Features.Astronaut.Commands;
+using StargateAPI.Application.Features.People.Queries;
+using StargateAPI.Presentation.Controllers;
+using System.Net;
+
+namespace StargateAPI.Presentation.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class AstronautDutyController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+        public AstronautDutyController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetAstronautDutiesByName(string name)
+        {
+            try
+            {
+                var result = await _mediator.Send(new GetPersonByName()
+                {
+                    Name = name
+                });
+
+                return this.GetResponse(result);
+            }
+            catch (Exception ex)
+            {
+                return this.GetResponse(new BaseResponse()
+                {
+                    Message = ex.Message,
+                    Success = false,
+                    ResponseCode = (int)HttpStatusCode.InternalServerError
+                });
+            }            
+        }
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateAstronautDuty([FromBody] CreateAstronautDuty request)
+        {
+                var result = await _mediator.Send(request);
+                return this.GetResponse(result);           
+        }
+    }
+}
