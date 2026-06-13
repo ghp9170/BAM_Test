@@ -6,3 +6,6 @@
 /package/exercise1/api/.vs
 /package/exercise1/api/obj
 /package/exercise1/api/StargateAPI.csproj.user
+/package/exercise1/api/starbase.db
+/package/exercise1/api/starbase.db-shm
+/package/exercise1/api/starbase.db-wal
