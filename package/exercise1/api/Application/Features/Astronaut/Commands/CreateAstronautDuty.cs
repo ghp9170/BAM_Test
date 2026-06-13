@@ -2,6 +2,7 @@
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using StargateAPI.Application.Features.Enums;
 using StargateAPI.Application.Features.Interfaces;
 using StargateAPI.Domain.Entities;
 using StargateAPI.Presentation.Controllers;
@@ -29,17 +30,16 @@ namespace StargateAPI.Application.Features.Astronaut.Commands
             _context = context;
         }
 
-        public Task Process(CreateAstronautDuty request, CancellationToken cancellationToken)
+        public async Task Process(CreateAstronautDuty request, CancellationToken cancellationToken)
         {
-            var person = _context.People.AsNoTracking().FirstOrDefault(z => z.Name == request.Name);
+            if (string.IsNullOrEmpty(request.Name))
+                throw new ApplicationException("Bad Request");
 
-            if (person is null) throw new BadHttpRequestException("Bad Request");
+            var astronautExists = await _context.AstronautDetails
+                .AnyAsync(a => a.Person.Name == request.Name, cancellationToken);
 
-            var verifyNoPreviousDuty = _context.AstronautDuties.FirstOrDefault(z => z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
-
-            if (verifyNoPreviousDuty is not null) throw new BadHttpRequestException("Bad Request");
-
-            return Task.CompletedTask;
+            if (!astronautExists)
+                throw new ApplicationException("Bad Request");
         }
     }
 
@@ -53,66 +53,59 @@ namespace StargateAPI.Application.Features.Astronaut.Commands
         }
         public async Task<CreateAstronautDutyResult> Handle(CreateAstronautDuty request, CancellationToken cancellationToken)
         {
+            var sql = @"
+                            DECLARE @TargetAstronautId INT;
 
-            var query = $"SELECT * FROM [Person] WHERE @userName = Name";
+                            SELECT @TargetAstronautId = a.Id 
+                            FROM [AstronautDetail] a
+                            INNER JOIN [Person] p ON p.Id = a.PersonId
+                            WHERE p.Name = @userName;
 
-            var person = await _context.Connection.QueryFirstOrDefaultAsync<Person>(query, new {userName = request.Name  });
+                            --part of the rules is to mark their career  end date if they retire. So we are always updating this and if they retire then cool
+                            --if not no harm no foul
+                            UPDATE [AstronautDetails]
+                            SET CareerEndDate = @CareerEndDate
+                            WHERE id = @TargetAstronautId
+        
+                            --end the preivous duty so we can start a new one
+                            UPDATE [AstronautDuty]
+                            SET DutyEndDate = @PreviousDutyEndDate, 
+                                IsCurrentDuty = 0
+                            WHERE AstronautId = @TargetAstronautId AND IsCurrentDuty = 1;
 
-            query = $"SELECT * FROM [AstronautDetail] WHERE @id = PersonId";
+                            INSERT INTO [AstronautDuty] (
+                                AstronautId, 
+                                Rank, 
+                                DutyTitle, 
+                                DutyStartDate, 
+                                DutyEndDate,
+                                IsCurrentDuty
+                            ) 
+                            VALUES (
+                                @TargetAstronautId, 
+                                @Rank, 
+                                @DutyTitle, 
+                                @DutyStartDate, 
+                                NULL,
+                                1    
+                            );
 
-            var astronautDetail = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDetail>(query, new {id = person.Id });
+                            SELECT CAST(SCOPE_IDENTITY() as int);
+    ";
 
-            if (astronautDetail == null)
+            var newDutyId = await _context.Connection.ExecuteScalarAsync<int>(sql, new
             {
-                astronautDetail = new AstronautDetail();
-                astronautDetail.PersonId = person.Id;
-                astronautDetail.CurrentDutyTitle = request.DutyTitle;
-                astronautDetail.CurrentRank = request.Rank;
-                astronautDetail.CareerStartDate = request.DutyStartDate.Date;
-                if (request.DutyTitle == "RETIRED")
-                {
-                    astronautDetail.CareerEndDate = request.DutyStartDate.Date;
-                }
-
-                await _context.AstronautDetails.AddAsync(astronautDetail);
-
-            }
-            else
-            {
-                astronautDetail.CurrentDutyTitle = request.DutyTitle;
-                astronautDetail.CurrentRank = request.Rank;
-                if (request.DutyTitle == "RETIRED")
-                {
-                    astronautDetail.CareerEndDate = request.DutyStartDate.AddDays(-1).Date;
-                }
-                _context.AstronautDetails.Update(astronautDetail);
-            }
-
-            query = $"SELECT * FROM [AstronautDuty] WHERE @id = PersonId Order By DutyStartDate Desc";
-
-            var astronautDuty = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDuty>(query, new { id = person.Id });
-
-            if (astronautDuty != null)
-            {
-                astronautDuty.DutyEndDate = request.DutyStartDate.AddDays(-1).Date;
-                _context.AstronautDuties.Update(astronautDuty);
-            }
-
-            var newAstronautDuty = new AstronautDuty()
-            {
+                userName = request.Name,
                 Rank = request.Rank,
                 DutyTitle = request.DutyTitle,
-                DutyStartDate = request.DutyStartDate.Date,
-                DutyEndDate = null
-            };
-
-            await _context.AstronautDuties.AddAsync(newAstronautDuty);
-
-            await _context.SaveChangesAsync();
+                DutyStartDate = request.DutyStartDate,
+                PreviousDutyEndDate = DateTime.Now.AddDays(-1),
+                CareerEndDate = request.DutyTitle == Duty.Retired.ToString() ? DateTime.Now : (DateTime?)null
+            });
 
             return new CreateAstronautDutyResult()
             {
-                Id = newAstronautDuty.Id
+                Id = newDutyId
             };
         }
     }

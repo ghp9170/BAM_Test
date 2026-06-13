@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StargateAPI.Domain.Entities;
 
@@ -10,9 +11,11 @@ using StargateAPI.Domain.Entities;
 namespace StargateAPI.Migrations
 {
     [DbContext(typeof(StargateContext))]
-    partial class StargateContextModelSnapshot : ModelSnapshot
+    [Migration("20260613174149_finished")]
+    partial class finished
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
@@ -38,14 +41,6 @@ namespace StargateAPI.Migrations
                         .IsUnique();
 
                     b.ToTable("AstronautDetail");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CareerStartDate = new DateTime(2026, 6, 13, 12, 6, 10, 380, DateTimeKind.Local).AddTicks(6312),
-                            PersonId = 1
-                        });
                 });
 
             modelBuilder.Entity("StargateAPI.Domain.Entities.AstronautDuty", b =>
@@ -84,17 +79,6 @@ namespace StargateAPI.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("AstronautDuty");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AstronautId = 1,
-                            DutyStartDate = new DateTime(2026, 6, 13, 12, 6, 10, 380, DateTimeKind.Local).AddTicks(6507),
-                            DutyTitle = "Commander",
-                            IsCurrent = true,
-                            Rank = "1LT"
-                        });
                 });
 
             modelBuilder.Entity("StargateAPI.Domain.Entities.ExceptionLog", b =>
@@ -135,18 +119,6 @@ namespace StargateAPI.Migrations
                         .IsUnique();
 
                     b.ToTable("Person");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "John Doe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Jane Doe"
-                        });
                 });
 
             modelBuilder.Entity("StargateAPI.Domain.Entities.SuccessCommandLog", b =>

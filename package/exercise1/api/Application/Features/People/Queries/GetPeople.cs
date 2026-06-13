@@ -22,9 +22,17 @@ namespace StargateAPI.Application.Features.People.Queries
         {
             var result = new GetPeopleResult();
 
-            var query = $"SELECT a.Id as PersonId, a.Name, b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate FROM [Person] a LEFT JOIN [AstronautDetail] b on b.PersonId = a.Id";
+            var query = @"
+                        SELECT 
+                            p.Id as PersonId, p.Name, 
+                            currentDuty.rank as 'CurrentRank',currentDuty.DutyTitle as 'CurrentDutyTitle', details.CareerStartDate, details.CareerEndDate
+                        FROM [Person] AS p
+                        LEFT JOIN [AstronautDetail] AS details ON details.PersonId = p.Id
+                        LEFT JOIN [AstronautDuty] AS currentDuty ON currentDuty.astronautId = details.Id AND currentDuty.isCurrent = 1
+                       ";
 
             var people = await _context.Connection.QueryAsync<PersonAstronaut>(query);
+
 
             result.People = people.ToList();
 

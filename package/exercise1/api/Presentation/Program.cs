@@ -13,8 +13,20 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<StargateContext>(options => 
-    options.UseSqlite(builder.Configuration.GetConnectionString("StarbaseApiDatabase")));
+builder.Services.AddDbContext<StargateContext>(options =>
+    options.UseSqlite("Data Source=stargate.db"));
+
+// Add CORS policy for Angular dev server
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("localhost", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -50,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("localhost");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

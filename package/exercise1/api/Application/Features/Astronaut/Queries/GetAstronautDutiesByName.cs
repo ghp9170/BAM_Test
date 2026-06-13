@@ -22,19 +22,20 @@ namespace StargateAPI.Application.Features.Astronaut.Queries
 
         public async Task<GetAstronautDutiesByNameResult> Handle(GetAstronautDutiesByName request, CancellationToken cancellationToken)
         {
-            if (request == null || string.IsNullOrEmpty(request.Name)) throw new ApplicationException("Bad Request");
+            if (string.IsNullOrEmpty(request.Name)) throw new ApplicationException("Bad Request");
 
             var result = new GetAstronautDutiesByNameResult();
             var duties = new List<AstronautDuty>();
 
             var query = @"
                         SELECT 
-                            a.Id as PersonId, a.Name, 
-                            b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate,
-                            c.Id, c.PersonId, c.Rank, c.DutyTitle, c.DutyStartDate, c.DutyEndDate
-                        FROM [Person] AS a
-                        LEFT JOIN [AstronautDetail] AS b ON b.PersonId = a.Id
-                        LEFT JOIN [AstronautDuty] AS c ON c.PersonId = a.Id
+                            p.Id as PersonId, p.Name, 
+                            currentDuty.rank as 'CurrentRank',currentDuty.DutyTitle as 'CurrentDutyTitle', details.CareerStartDate, details.CareerEndDate,
+                            pastDuties.Id, pastDuties.PersonId, pastDuties.Rank, pastDuties.DutyTitle, pastDuties.DutyStartDate, pastDuties.DutyEndDate
+                        FROM [Person] AS p
+                        LEFT JOIN [AstronautDetail] AS details ON details.PersonId = p.Id
+                        LEFT JOIN [AstronautDuty] AS pastDuties ON pastDuties.astronautId = details.Id AND currentDuty.isCurrent = 0
+                        LEFT JOIN [AstronautDuty] AS currentDuty ON currentDuty.astronautId = details.Id AND currentDuty.isCurrent = 1
                         WHERE a.Name = @userName
                         ORDER BY c.DutyStartDate DESC";
 

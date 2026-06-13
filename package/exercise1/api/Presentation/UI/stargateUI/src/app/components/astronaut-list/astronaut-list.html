@@ -1,0 +1,30 @@
+<div class="card" style="margin: 20px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+  <h2>Astronaut Roster</h2>
+  <p-table [value]="(astronauts | async)?.people || []" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Rank</th>
+        <th>Duty Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-person>
+      <tr>
+        <td>{{ person.personId }}</td>
+        <td>{{ person.name }}</td>
+        <td>{{ person.currentRank }}</td>
+        <td>{{ person.currentDutyTitle }}</td>
+        <td>{{ person.careerStartDate | date:'shortDate' }}</td>
+        <td>{{ person.careerEndDate | date:'shortDate' }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">No astronauts</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -21,7 +21,7 @@ namespace StargateAPI.Domain.Entities
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StargateContext).Assembly);
 
-            //SeedData(modelBuilder);
+            SeedData(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -37,8 +37,6 @@ namespace StargateAPI.Domain.Entities
             {
                 Id = 1,
                 PersonId = 1,
-                CurrentRank = "1LT",
-                CurrentDutyTitle = "Commander",
                 CareerStartDate = DateTime.Now
             };
             //add seed data

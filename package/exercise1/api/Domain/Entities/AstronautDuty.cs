@@ -18,7 +18,7 @@ namespace StargateAPI.Domain.Entities
 
         public DateTime? DutyEndDate { get; set; }
 
-        public Boolean IsCurrent { get; set; }
+        public bool IsCurrent { get; set; }
 
         public virtual AstronautDetail Astronaut { get; set; }
     }

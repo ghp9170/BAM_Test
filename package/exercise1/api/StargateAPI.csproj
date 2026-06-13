@@ -27,4 +27,9 @@
     <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Presentation\UI\" />
+    <Folder Include="tests\Application.UnitTests\" />
+  </ItemGroup>
+
 </Project>
