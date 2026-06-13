@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/package/exercise1/api/bin/Debug/net8.0
+/package/exercise1/api/.vs
+/package/exercise1/api/obj
+/package/exercise1/api/StargateAPI.csproj.user
