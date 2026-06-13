@@ -10,7 +10,8 @@ namespace StargateAPI.Domain.Entities
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<AstronautDetail> AstronautDetails { get; set; }
         public virtual DbSet<AstronautDuty> AstronautDuties { get; set; }
-
+        public virtual DbSet<ExceptionLog> ExceptionLogs { get; set; }
+        public virtual DbSet<SuccessCommandLog> SuccessCommandLog { get; set; }
         public StargateContext(DbContextOptions<StargateContext> options)
         : base(options)
         {

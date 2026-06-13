@@ -1,6 +1,9 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using StargateAPI.Application.Behaviors;
 using StargateAPI.Application.Features.Astronaut.Commands;
 using StargateAPI.Domain.Entities;
+using System.Windows.Input;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,8 @@ builder.Services.AddMediatR(cfg =>
     //If we were to expan the person to be multiple tables with children tables, the above statement would be more so true. 
     //If the requirement for uniquely Identifiing a person by their name changes, then we will add a preProcesser to handle that change
 
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ExceptionLoggingBehavior<,>));
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(SuccessCommandLoggingBehavior<,>));
     cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
 });
 

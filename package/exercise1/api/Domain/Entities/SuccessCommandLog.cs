@@ -4,20 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StargateAPI.Domain.Entities
 {
-    [Table("ExceptionLogs")]
-    public class ExceptionLog
+    [Table("SuccessCommandLogs")]
+    public class SuccessCommandLog
     {
         public int Id { get; set; }
-        public string Message { get; set; }
-        public string StackTrace { get; set; }
         public string? Parameters { get; set; }
-
         //todo: when/if we go production we need to track the user/ip on this
+        public double CommandTime { get; set; }
     }
 
-    public class ExceptionLogConfiguration : IEntityTypeConfiguration<ExceptionLog>
+    public class SuccessLogConfiguration : IEntityTypeConfiguration<SuccessCommandLog>
     {
-        public void Configure(EntityTypeBuilder<ExceptionLog> builder)
+        public void Configure(EntityTypeBuilder<SuccessCommandLog> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();

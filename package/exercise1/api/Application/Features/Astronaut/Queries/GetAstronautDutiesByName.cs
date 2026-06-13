@@ -22,6 +22,7 @@ namespace StargateAPI.Application.Features.Astronaut.Queries
 
         public async Task<GetAstronautDutiesByNameResult> Handle(GetAstronautDutiesByName request, CancellationToken cancellationToken)
         {
+            if (request == null || string.IsNullOrEmpty(request.Name)) throw new ApplicationException("Bad Request");
 
             var result = new GetAstronautDutiesByNameResult();
             var duties = new List<AstronautDuty>();

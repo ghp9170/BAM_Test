@@ -2,13 +2,14 @@
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using StargateAPI.Application.Features.Interfaces;
 using StargateAPI.Domain.Entities;
 using StargateAPI.Presentation.Controllers;
 using System.Net;
 
 namespace StargateAPI.Application.Features.Astronaut.Commands
 {
-    public class CreateAstronautDuty : IRequest<CreateAstronautDutyResult>
+    public class CreateAstronautDuty : IRequest<CreateAstronautDutyResult>, IStargateCommand
     {
         public required string Name { get; set; }
 

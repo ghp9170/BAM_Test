@@ -1,12 +1,14 @@
 ﻿using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using StargateAPI.Application.Features.Interfaces;
 using StargateAPI.Domain.Entities;
 using StargateAPI.Presentation.Controllers;
+using System.Windows.Input;
 
 namespace StargateAPI.Application.Features.People.Commands
 {
-    public class CreatePerson : IRequest<CreatePersonResult>
+    public class CreatePerson : IRequest<CreatePersonResult>, IStargateCommand
     {
         public required string Name { get; set; } = string.Empty;
     }
@@ -43,8 +45,9 @@ namespace StargateAPI.Application.Features.People.Commands
         }
         public async Task<CreatePersonResult> Handle(CreatePerson request, CancellationToken cancellationToken)
         {
+            if (request == null || string.IsNullOrEmpty(request.Name)) throw new ApplicationException("Bad Request");
 
-                var newPerson = new Person()
+            var newPerson = new Person()
                 {
                    Name = request.Name
                 };

@@ -37,5 +37,48 @@ namespace StargateAPI.Tests.Application.Features.People
                 Times.Once
             );
         }
+
+        [Fact]
+        public async Task Handle_WhenRequestIsNull_ShouldBubbleUpException()
+        {
+            var mockDbSet = new Mock<DbSet<Person>>();
+            var mockContext = new Mock<StargateContext>(new DbContextOptionsBuilder<StargateContext>().Options);
+
+            var handler = new CreatePersonHandler(mockContext.Object);
+
+            Func<Task> act = async () => await handler.Handle(null, CancellationToken.None);
+
+            var exceptionAssertion = await act.Should().ThrowAsync<ApplicationException>();
+
+            exceptionAssertion.WithMessage("Bad Request");
+        }
+        [Fact]
+        public async Task Handle_WhenRequestNameIsEmptyString_ShouldBubbleUpException()
+        {
+            var mockDbSet = new Mock<DbSet<Person>>();
+            var mockContext = new Mock<StargateContext>(new DbContextOptionsBuilder<StargateContext>().Options);
+
+            var handler = new CreatePersonHandler(mockContext.Object);
+            var command = new CreatePerson { Name = String.Empty };
+            Func<Task> act = async () => await handler.Handle(command, CancellationToken.None);
+
+            var exceptionAssertion = await act.Should().ThrowAsync<ApplicationException>();
+
+            exceptionAssertion.WithMessage("Bad Request");
+        }
+        [Fact]
+        public async Task Handle_WhenRequestNameIsNull_ShouldBubbleUpException()
+        {
+            var mockDbSet = new Mock<DbSet<Person>>();
+            var mockContext = new Mock<StargateContext>(new DbContextOptionsBuilder<StargateContext>().Options);
+
+            var handler = new CreatePersonHandler(mockContext.Object);
+            var command = new CreatePerson { Name = null };
+            Func<Task> act = async () => await handler.Handle(command, CancellationToken.None);
+
+            var exceptionAssertion = await act.Should().ThrowAsync<ApplicationException>();
+
+            exceptionAssertion.WithMessage("Bad Request");
+        }
     }
 }
