@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="StargateAPI.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Application.UnitTests/">
+    <Project Path="../StargateAPI.Application.UnitTests/StargateAPI.Application.UnitTests.csproj" />
+  </Folder>
+</Solution>

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StargateAPI.Domain.Entities;
 
+
 #nullable disable
 
 namespace StargateAPI.Migrations

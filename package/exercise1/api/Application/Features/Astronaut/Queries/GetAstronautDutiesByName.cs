@@ -24,18 +24,37 @@ namespace StargateAPI.Application.Features.Astronaut.Queries
         {
 
             var result = new GetAstronautDutiesByNameResult();
+            var duties = new List<AstronautDuty>();
 
-            var query = $"SELECT a.Id as PersonId, a.Name, b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate FROM [Person] a LEFT JOIN [AstronautDetail] b on b.PersonId = a.Id WHERE \'{request.Name}\' = a.Name";
+            var query = @"
+                        SELECT 
+                            a.Id as PersonId, a.Name, 
+                            b.CurrentRank, b.CurrentDutyTitle, b.CareerStartDate, b.CareerEndDate,
+                            c.Id, c.PersonId, c.Rank, c.DutyTitle, c.DutyStartDate, c.DutyEndDate
+                        FROM [Person] AS a
+                        LEFT JOIN [AstronautDetail] AS b ON b.PersonId = a.Id
+                        LEFT JOIN [AstronautDuty] AS c ON c.PersonId = a.Id
+                        WHERE a.Name = @userName
+                        ORDER BY c.DutyStartDate DESC";
 
-            var person = await _context.Connection.QueryFirstOrDefaultAsync<PersonAstronaut>(query);
+            await _context.Connection.QueryAsync<PersonAstronaut, AstronautDuty, PersonAstronaut>(
+                query,
+                (person, duty) =>
+                {
+                    result.Person = person;
 
-            result.Person = person;
+                    if (duty != null)
+                    {
+                        duties.Add(duty);
+                    }
 
-            query = $"SELECT * FROM [AstronautDuty] WHERE {person.PersonId} = PersonId Order By DutyStartDate Desc";
+                    return person; 
+                },
+                new { userName = request.Name },
+                splitOn: "Id" 
+            );
 
-            var duties = await _context.Connection.QueryAsync<AstronautDuty>(query);
-
-            result.AstronautDuties = duties.ToList();
+            result.AstronautDuties = duties;
 
             return result;
 

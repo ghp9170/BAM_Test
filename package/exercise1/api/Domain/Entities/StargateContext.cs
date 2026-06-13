@@ -6,9 +6,10 @@ namespace StargateAPI.Domain.Entities
     public class StargateContext : DbContext
     {
         public IDbConnection Connection => Database.GetDbConnection();
-        public DbSet<Person> People { get; set; }
-        public DbSet<AstronautDetail> AstronautDetails { get; set; }
-        public DbSet<AstronautDuty> AstronautDuties { get; set; }
+        //made virtual so we can MOQ out without creating a repository and interface, keeps the handlers lean
+        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<AstronautDetail> AstronautDetails { get; set; }
+        public virtual DbSet<AstronautDuty> AstronautDuties { get; set; }
 
         public StargateContext(DbContextOptions<StargateContext> options)
         : base(options)

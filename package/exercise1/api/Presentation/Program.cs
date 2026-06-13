@@ -16,6 +16,13 @@ builder.Services.AddDbContext<StargateContext>(options =>
 builder.Services.AddMediatR(cfg =>
 {
     cfg.AddRequestPreProcessor<CreateAstronautDutyPreProcessor>();
+    //## Rules
+    //A Person is uniquely identified by their Name.
+    //For rule 1 I chose not to include a PreProcessor to verify the person exists.
+    //Its faster to try and create the person and deal with the DB error, then it is to fetch the person and see if that person exists
+    //If we were to expan the person to be multiple tables with children tables, the above statement would be more so true. 
+    //If the requirement for uniquely Identifiing a person by their name changes, then we will add a preProcesser to handle that change
+
     cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
 });
 

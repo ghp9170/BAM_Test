@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StargateAPI.Application.Features.People.Commands;
 using StargateAPI.Application.Features.People.Queries;
-using StargateAPI.Presentation.Controllers;
 using System.Net;
 
 namespace StargateAPI.Presentation.Controllers
