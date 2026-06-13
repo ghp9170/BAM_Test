@@ -21,6 +21,14 @@ builder.Services.AddMediatR(cfg =>
 
 var app = builder.Build();
 
+//Since this is supposed to be a standalone project. We will spin up and 
+//apply all changes to the DB for whomever runs this. Saves them time and effort themselves and makes it turnkey
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<StargateContext>();
+    dbContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
