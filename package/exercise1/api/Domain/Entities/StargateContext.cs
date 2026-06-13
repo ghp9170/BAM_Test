@@ -28,14 +28,23 @@ namespace StargateAPI.Domain.Entities
 
         private static void SeedData(ModelBuilder modelBuilder)
         {
+            var johnDoe = new Person
+            {
+                Id = 1,
+                Name = "John Doe"
+            };
+            var johnDoeAstronaut = new AstronautDetail
+            {
+                Id = 1,
+                PersonId = 1,
+                CurrentRank = "1LT",
+                CurrentDutyTitle = "Commander",
+                CareerStartDate = DateTime.Now
+            };
             //add seed data
             modelBuilder.Entity<Person>()
                 .HasData(
-                    new Person
-                    {
-                        Id = 1,
-                        Name = "John Doe"
-                    },
+                    johnDoe,
                     new Person
                     {
                         Id = 2,
@@ -44,26 +53,18 @@ namespace StargateAPI.Domain.Entities
                 );
 
             modelBuilder.Entity<AstronautDetail>()
-                .HasData(
-                    new AstronautDetail
-                    {
-                        Id = 1,
-                        PersonId = 1,
-                        CurrentRank = "1LT",
-                        CurrentDutyTitle = "Commander",
-                        CareerStartDate = DateTime.Now
-                    }
-                );
+                .HasData(johnDoeAstronaut);
 
             modelBuilder.Entity<AstronautDuty>()
                 .HasData(
                     new AstronautDuty
                     {
                         Id = 1,
-                        PersonId = 1,
+                        AstronautId = johnDoeAstronaut.Id,
                         DutyStartDate = DateTime.Now,
                         DutyTitle = "Commander",
-                        Rank = "1LT"
+                        Rank = "1LT",
+                        IsCurrent = true
                     }
                 );
         }

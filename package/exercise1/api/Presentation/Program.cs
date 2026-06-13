@@ -27,6 +27,9 @@ builder.Services.AddMediatR(cfg =>
     //If the requirement for uniquely Identifiing a person by their name changes, then we will add a preProcesser to handle that change
 
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ExceptionLoggingBehavior<,>));
+    //the below logs all DML commands and their times. We will also want to wire up timing for gets, but that will need 
+    //to be down through telementry and azure telemetry logging or something special as that will crash the app if just wired up 
+    //here by itself
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(SuccessCommandLoggingBehavior<,>));
     cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
 });

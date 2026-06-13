@@ -43,10 +43,8 @@ namespace StargateAPI.Application.Behaviors
                 };
 
 
-                _context.ExceptionLogs.Add(logEntry);
+                _context.SuccessCommandLog.Add(logEntry);
                 await _context.SaveChangesAsync(cancellationToken);
-
-                throw;
             }
         }
     }

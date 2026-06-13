@@ -8,8 +8,7 @@ namespace StargateAPI.Domain.Entities
     public class AstronautDuty
     {
         public int Id { get; set; }
-
-        public int PersonId { get; set; }
+        public int AstronautId { get; set; }
 
         public string Rank { get; set; } = string.Empty;
 
@@ -19,7 +18,9 @@ namespace StargateAPI.Domain.Entities
 
         public DateTime? DutyEndDate { get; set; }
 
-        public virtual Person Person { get; set; }
+        public Boolean IsCurrent { get; set; }
+
+        public virtual AstronautDetail Astronaut { get; set; }
     }
 
     public class AstronautDutyConfiguration : IEntityTypeConfiguration<AstronautDuty>
@@ -28,6 +29,7 @@ namespace StargateAPI.Domain.Entities
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.HasOne(z => z.Astronaut).WithMany(z => z.AstronautDuties).HasForeignKey(z => z.AstronautId);
         }
     }
 }

@@ -100,7 +100,6 @@ namespace StargateAPI.Application.Features.Astronaut.Commands
 
             var newAstronautDuty = new AstronautDuty()
             {
-                PersonId = person.Id,
                 Rank = request.Rank,
                 DutyTitle = request.DutyTitle,
                 DutyStartDate = request.DutyStartDate.Date,

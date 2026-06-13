@@ -20,6 +20,7 @@ namespace StargateAPI.Domain.Entities
         public DateTime? CareerEndDate { get; set; }
 
         public virtual Person Person { get; set; }
+        public virtual List<AstronautDuty> AstronautDuties { get; set; }
     }
 
     public class AstronautDetailConfiguration : IEntityTypeConfiguration<AstronautDetail>
