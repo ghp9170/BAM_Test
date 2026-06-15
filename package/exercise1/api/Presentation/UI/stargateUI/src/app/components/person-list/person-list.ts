@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PersonService } from './person.service';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,7 @@ import { PersonResponse } from '../../models/PersonResponse';
   selector: 'app-person-list',
   imports: [CommonModule, TableModule, PersonCard, RocketLaunch],
   templateUrl: './person-list.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './person-list.css',
 })
 export class PersonList implements OnInit {

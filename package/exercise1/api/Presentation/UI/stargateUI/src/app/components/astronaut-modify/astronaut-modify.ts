@@ -1,18 +1,18 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Person } from '../../models/Person';
 import { AstronautDutyService } from './personModify.service';
 import { AstronautDuty } from '../../models/AstronautDuty';
- 
 
 @Component({
   selector: 'app-astronaut-modify',
   imports: [CommonModule],
   templateUrl: './astronaut-modify.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './astronaut-modify.css',
 })
 export class AstronautModify implements OnInit {
-  @Input() astronaut : Person | undefined;
+  @Input() astronaut: Person | undefined;
   duties: AstronautDuty[] = [];
   isLoading = true;
   error = '';
@@ -37,7 +37,7 @@ export class AstronautModify implements OnInit {
           this.isLoading = false;
           this.error = 'Error fetching astronaut duties.';
           console.error('Failed to fetch duties:', err);
-        }
+        },
       });
     } else {
       this.isLoading = false;

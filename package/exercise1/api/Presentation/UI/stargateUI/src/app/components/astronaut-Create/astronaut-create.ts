@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AstronautCreateService } from './astronaut-create.service';
@@ -8,6 +16,7 @@ import { forkJoin, timer } from 'rxjs';
   selector: 'app-astronaut-create',
   imports: [CommonModule, FormsModule],
   templateUrl: './astronaut-create.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './astronaut-create.css',
 })
 export class AstronautCreate implements OnInit {
@@ -18,7 +27,7 @@ export class AstronautCreate implements OnInit {
     name: '',
     currentRank: '',
     currentDutyTitle: '',
-    careerStartDate: ''
+    careerStartDate: '',
   };
 
   isSaving: boolean = false;
@@ -46,7 +55,7 @@ export class AstronautCreate implements OnInit {
       error: (err) => {
         this.isSaving = false;
         console.error('Error saving astronaut:', err);
-      }
+      },
     });
   }
 }

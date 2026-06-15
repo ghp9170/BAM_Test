@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonCreate } from '../person-create/person-create';
 import { AstronautCreate } from '../astronaut-create/astronaut-create';
@@ -9,6 +9,7 @@ import { AstronautModify } from '../astronaut-modify/astronaut-modify';
   standalone: true,
   imports: [CommonModule, PersonCreate, AstronautCreate, AstronautModify],
   templateUrl: './rocket-launch.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rocket-launch.css',
 })
 export class RocketLaunch {

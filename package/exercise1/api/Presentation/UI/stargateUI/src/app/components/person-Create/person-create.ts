@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PersonCreateService } from './person-create.service';
@@ -8,6 +8,7 @@ import { forkJoin, timer } from 'rxjs';
   selector: 'app-person-create',
   imports: [CommonModule, FormsModule],
   templateUrl: './person-create.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './person-create.css',
 })
 export class PersonCreate {
@@ -33,7 +34,7 @@ export class PersonCreate {
       error: (err) => {
         this.isSaving = false;
         console.error('Error saving person:', err);
-      }
+      },
     });
   }
 }

@@ -26,8 +26,9 @@
     </div>
     <div class="info-row">
       <span class="label">Career Start</span>
-      <span class="value">{{ astronaut?.careerStartDate | date: 'shortDate' }}</span>
+      <span class="value">{{
+        $safeNavigationMigration(astronaut?.careerStartDate) | date: 'shortDate'
+      }}</span>
     </div>
   </div>
-
-
+</div>
