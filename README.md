@@ -4,7 +4,13 @@ Step 1.
 Open visual studio code and Navigate to Presentation/UI/StargateUI
 
 run the following commands
-npm i
+
+
+npm i --force
+
+
+    there are some packages out of synch
+    
 ng serve
 
 
