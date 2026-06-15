@@ -1,0 +1,257 @@
+/* --- Launch Button --- */
+.launch-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.launch-btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.launch-btn:active {
+  transform: translateY(0);
+}
+
+/* --- Earth & Rocket Animation --- */
+.earth-container {
+  position: fixed;
+  bottom: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.earth {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #0b3d91; /* Ocean Base */
+  box-shadow: 0 0 30px rgba(76, 175, 80, 0.3), inset -10px -10px 40px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+
+.earth::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-image: 
+    /* Florida / East Coast */
+    radial-gradient(ellipse at 65% 55%, #4caf50 8%, transparent 15%),
+    /* Mexico / Central America taper */
+    radial-gradient(ellipse at 35% 70%, #4caf50 12%, transparent 25%),
+    /* Main US / Canada Body */
+    radial-gradient(ellipse at 45% 35%, #4caf50 30%, transparent 50%);
+  animation: spinEarth 10s linear infinite;
+}
+
+.earth::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-image: 
+    /* Cloud cover / Atmospheric glow */
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 40%),
+    /* Shadow for spherical 3D effect */
+    radial-gradient(circle at 30% 30%, transparent 40%, rgba(0,0,0,0.9) 90%);
+}
+
+.satellite-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  height: 260px;
+  margin-top: -130px;
+  margin-left: -130px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  animation: orbit 4s linear infinite;
+  z-index: 1001;
+}
+
+.satellite {
+  position: absolute;
+  top: -12px;
+  left: calc(50% - 12px);
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.6));
+}
+
+.rocket {
+  position: absolute;
+  bottom: 120px;
+  right: 120px;
+  width: 48px;
+  height: 48px;
+  transform: rotate(-45deg);
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+  z-index: 1002;
+}
+
+.rocket .flame {
+  opacity: 0;
+}
+
+.rocket.launching .flame {
+  animation: flicker 0.2s infinite alternate;
+}
+
+.rocket.launching {
+  animation: launchAnim 1.3s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+}
+
+.explosion {
+  position: fixed;
+  bottom: 50vh;
+  right: 50vw;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #ffffff, #ffeb3b 20%, #ff9800 40%, #f44336 60%, transparent 80%);
+  border-radius: 50%;
+  transform: translate(50%, 50%);
+  opacity: 0;
+  z-index: 1001;
+  pointer-events: none;
+  box-shadow: 0 0 50px 20px rgba(255, 152, 0, 0.5);
+  mix-blend-mode: screen;
+}
+
+.explosion.active {
+  animation: boom 0.3s ease-out forwards;
+}
+
+@keyframes spinEarth {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes boom {
+  0% { width: 10px; height: 10px; opacity: 1; filter: brightness(3); box-shadow: 0 0 100px 50px rgba(255, 255, 255, 1); }
+  15% { width: 200px; height: 200px; opacity: 1; filter: brightness(2.5); box-shadow: 0 0 200px 100px rgba(255, 255, 255, 0.8); }
+  40% { width: 450px; height: 450px; opacity: 1; filter: brightness(1.5); box-shadow: 0 0 150px 80px rgba(255, 87, 34, 0.8); }
+  100% { width: 800px; height: 800px; opacity: 0; filter: brightness(1); box-shadow: 0 0 50px 20px rgba(255, 0, 0, 0); }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes launchAnim {
+  0% {
+    bottom: 120px;
+    right: 120px;
+    transform: rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+  15% {
+    bottom: 110px;
+    right: 110px;
+    transform: rotate(-45deg) scale(1); /* Windup before taking off */
+    opacity: 1;
+  }
+  68% {
+    bottom: 48vh;
+    right: 48vw;
+    transform: rotate(-45deg) scale(1.4); /* Right before explosion */
+    opacity: 1;
+    filter: brightness(1.5);
+  }
+  70% {
+    bottom: 50vh;
+    right: 50vw;
+    transform: rotate(-45deg) scale(1.5); /* Reaches Middle */
+    opacity: 1;
+    filter: brightness(3);
+  }
+  71% {
+    bottom: 50vh;
+    right: 50vw;
+    transform: rotate(-45deg) scale(2); /* Disappears into explosion */
+    opacity: 0;
+    filter: brightness(5);
+  }
+  100% {
+    bottom: 50vh;
+    right: 50vw;
+    transform: rotate(-45deg) scale(2);
+    opacity: 0;
+  }
+}
+
+/* --- Create Modal --- */
+.create-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn .5s ease-out 1s both;
+}
+
+.create-modal-content {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.5);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #ff3333;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

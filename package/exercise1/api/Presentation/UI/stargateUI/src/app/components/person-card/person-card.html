@@ -1,0 +1,33 @@
+<div class="astronaut-card">
+  <div class="card-header">
+    <!-- Classic Windows-style default profile picture SVG -->
+    <svg class="astronaut-image" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="50" fill="#e0e0e0" />
+      <path
+        d="M50 50c12 0 20-8 20-20s-8-20-20-20-20 8-20 20 8 20 20 20zm0 10c-16 0-35 8-35 25v15h70V85c0-17-19-25-35-25z"
+        fill="#aaaaaa"
+      />
+    </svg>
+
+    <div class="header-text">
+      <h3>{{ astronaut?.name }}</h3>
+      <span class="rank">{{ astronaut?.currentRank }}</span>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="info-row">
+      <span class="label">ID</span>
+      <span class="value">{{ astronaut?.personId }}</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Duty Title</span>
+      <span class="value">{{ astronaut?.currentDutyTitle }}</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Career Start</span>
+      <span class="value">{{ astronaut?.careerStartDate | date: 'shortDate' }}</span>
+    </div>
+  </div>
+
+

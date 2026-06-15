@@ -1,0 +1,57 @@
+<button class="launch-btn" (click)="launchRocket('create')">🚀 Create Person</button>
+
+<!-- Earth and Rocket Animation -->
+<div class="earth-container">
+  <div class="earth"></div>
+  <!-- Orbiting Satellite -->
+  <div class="satellite-orbit">
+    <svg class="satellite" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <!-- Solar Panels -->
+      <rect x="1" y="8" width="7" height="8" fill="#0277bd" stroke="#81d4fa" stroke-width="0.5" />
+      <rect x="16" y="8" width="7" height="8" fill="#0277bd" stroke="#81d4fa" stroke-width="0.5" />
+      <!-- Body -->
+      <rect x="9" y="6" width="6" height="12" fill="#e0e0e0" rx="1" />
+      <circle cx="12" cy="12" r="2.5" fill="#ffeb3b" />
+      <!-- Antenna -->
+      <path d="M12 6 L12 1" stroke="#ffffff" stroke-width="1.5" />
+      <circle cx="12" cy="1" r="1" fill="#ff5722" />
+    </svg>
+  </div>
+  <!-- Explosion Element -->
+  <div class="explosion" [class.active]="isExploding"></div>
+  <svg class="rocket" [class.launching]="isLaunching" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <!-- Rocket Body -->
+    <path d="M16 2 L22 14 L22 24 L16 22 L10 24 L10 14 Z" fill="#e0e0e0" />
+    <!-- Fins -->
+    <path d="M10 20 L4 28 L10 24 Z" fill="#aaaaaa" />
+    <path d="M22 20 L28 28 L22 24 Z" fill="#aaaaaa" />
+    <!-- Window -->
+    <circle cx="16" cy="12" r="2.5" fill="#050505" />
+    <circle cx="16" cy="12" r="3" fill="none" stroke="#ffffff" stroke-width="0.5" />
+    <!-- Flame -->
+    <path class="flame" d="M13 23 L16 31 L19 23 Z" fill="#ff5722" />
+  </svg>
+</div>
+
+<!-- Modal -->
+@if (showModal) {
+  <div class="create-modal-overlay">
+    <div class="create-modal-content">
+      <button class="close-btn" (click)="closeModal()">✕</button>
+      <h2 style="margin-top: 0; color: #1a1a24;">
+        {{
+          modalMode === 'modify' ? 'Modify Astronaut' :
+          (selectedAstronaut ? 'Astronaut Initialization' : 'New Person Registration')
+        }}
+      </h2>
+
+      @if (modalMode === 'modify') {
+        <app-astronaut-modify [astronaut]="selectedAstronaut" (saved)="onSaved()"></app-astronaut-modify>
+      } @else if (selectedAstronaut) {
+        <app-astronaut-create [astronaut]="selectedAstronaut" (saved)="onSaved()"></app-astronaut-create>
+      } @else {
+        <app-person-create (saved)="onSaved()"></app-person-create>
+      }
+    </div>
+  </div>
+}

@@ -34,10 +34,10 @@ namespace StargateAPI.Application.Features.Astronaut.Queries
                             pastDuties.Id, pastDuties.PersonId, pastDuties.Rank, pastDuties.DutyTitle, pastDuties.DutyStartDate, pastDuties.DutyEndDate
                         FROM [Person] AS p
                         LEFT JOIN [AstronautDetail] AS details ON details.PersonId = p.Id
-                        LEFT JOIN [AstronautDuty] AS pastDuties ON pastDuties.astronautId = details.Id AND currentDuty.isCurrent = 0
+                        LEFT JOIN [AstronautDuty] AS pastDuties ON pastDuties.astronautId = details.Id AND pastDuties.isCurrent = 0
                         LEFT JOIN [AstronautDuty] AS currentDuty ON currentDuty.astronautId = details.Id AND currentDuty.isCurrent = 1
-                        WHERE a.Name = @userName
-                        ORDER BY c.DutyStartDate DESC";
+                        WHERE p.Name = @userName
+                        ORDER BY pastDuties.DutyStartDate DESC";
 
             await _context.Connection.QueryAsync<PersonAstronaut, AstronautDuty, PersonAstronaut>(
                 query,

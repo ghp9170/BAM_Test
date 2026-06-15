@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StargateAPI.Application.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92fcb805ff65590ed3a477ecc1ee44599154125f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df914667177c8ad48f2e2560893ffe00bfe97059")]
 [assembly: System.Reflection.AssemblyProductAttribute("StargateAPI.Application.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StargateAPI.Application.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

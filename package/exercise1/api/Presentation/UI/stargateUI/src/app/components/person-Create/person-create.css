@@ -1,0 +1,111 @@
+.create-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #1a1a24;
+}
+
+.disclaimer {
+  background-color: rgba(0, 120, 212, 0.1);
+  border-left: 4px solid #0078d4;
+  padding: 12px 15px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.disclaimer p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  color: #111;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0078d4;
+  background-color: #fff;
+}
+
+.save-btn {
+  background-color: #0078d4;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  align-self: flex-end;
+}
+
+.save-btn:hover:not(:disabled) {
+  background-color: #005a9e;
+  transform: translateY(-2px);
+}
+
+.save-btn:disabled {
+  background-color: #a0c3e8;
+  cursor: not-allowed;
+}
+
+/* --- Galaxy Spinner --- */
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px 0;
+}
+
+.spinner-container p {
+  color: #555;
+  font-weight: 500;
+  margin: 0;
+  animation: pulseText 1.5s infinite alternate;
+}
+
+.galaxy-spinner {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #4caf50, #083c9c, #9c27b0, #ff9800);
+  animation: spinGalaxy 1s linear infinite;
+  box-shadow: 0 0 20px rgba(156, 39, 176, 0.6), inset 0 0 15px #ffffff;
+  filter: blur(2px);
+}
+
+@keyframes spinGalaxy {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseText {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}

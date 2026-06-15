@@ -1,0 +1,48 @@
+<div class="modify-container">
+  <div class="astronaut-header">
+    <div class="avatar-placeholder">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="#0b3d91"/>
+        <path d="M50 50c12 0 20-8 20-20s-8-20-20-20-20 8-20 20 8 20 20 20zm0 10c-16 0-35 8-35 25v15h70V85c0-17-19-25-35-25z" fill="#ffffff"/>
+      </svg>
+    </div>
+    <div class="astronaut-info">
+      <h3>{{ astronaut?.name }}</h3>
+      <p class="current-rank">{{ astronaut?.currentRank || 'No Rank Assigned' }}</p>
+    </div>
+  </div>
+
+  <div class="duties-section">
+    <h4>Duty History</h4>
+    
+    @if (isLoading) {
+      <div class="state-container">
+        <div class="spinner"></div>
+        <p>Loading duty assignments...</p>
+      </div>
+    } @else if (error) {
+      <div class="state-container error">
+        <p>{{ error }}</p>
+      </div>
+    } @else if (duties.length === 0) {
+      <div class="state-container empty">
+        <p>No duties recorded for this astronaut.</p>
+      </div>
+    } @else {
+      <div class="duties-list">
+        @for (duty of duties; track duty.id) {
+          <div class="duty-card" [class.current]="duty.isCurrent">
+            <div class="duty-header">
+              <span class="duty-title">{{ duty.dutyTitle }}</span>
+              @if (duty.isCurrent) { <span class="badge current-badge">Current</span> }
+            </div>
+            <div class="duty-details">
+              <span class="duty-rank">Rank: {{ duty.rank }}</span>
+              <span class="duty-dates">{{ duty.dutyStartDate | date:'mediumDate' }} - {{ duty.dutyEndDate ? (duty.dutyEndDate | date:'mediumDate') : 'Present' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

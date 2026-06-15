@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { AstronautList } from './components/astronaut-list/astronaut-list';
+import { PersonList } from './components/person-list/person-list';
 
 export const routes: Routes = [
-  { path: '', component: AstronautList },
-  
+  { path: '', component: PersonList },
+
   // You can add a wildcard route here later for 404 pages:
   // { path: '**', redirectTo: '' }
 ];

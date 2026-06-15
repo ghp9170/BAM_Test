@@ -1,0 +1,22 @@
+<div class="create-container">
+  <div class="disclaimer">
+    <span class="icon">ℹ️</span>
+    <p>You are creating a <strong>Person</strong>. If you want to create an astronaut, you will need to click on the newly created person card and modify them.</p>
+  </div>
+
+  @if (isSaving) {
+    <div class="spinner-container">
+      <div class="galaxy-spinner">
+        <div class="core"></div>
+        <div class="arms"></div>
+      </div>
+      <p>Initializing new lifeform...</p>
+    </div>
+  } @else {
+    <div class="form-group">
+      <label for="personName">Person Name</label>
+      <input type="text" id="personName" [(ngModel)]="name" placeholder="Enter new person's name..." autocomplete="off">
+    </div>
+    <button class="save-btn" [disabled]="!name.trim()" (click)="save()">Create Person</button>
+  }
+</div>
