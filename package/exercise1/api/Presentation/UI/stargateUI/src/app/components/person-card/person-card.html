@@ -1,4 +1,4 @@
-<div class="astronaut-card">
+<div class="astronaut-card" [class.is-astronaut]="astronaut?.careerStartDate">
   <div class="card-header">
     <!-- Classic Windows-style default profile picture SVG -->
     <svg class="astronaut-image" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -10,16 +10,17 @@
     </svg>
 
     <div class="header-text">
-      <h3>{{ astronaut?.name }}</h3>
-      <span class="rank">{{ astronaut?.currentRank }}</span>
+      <div class="name-container">
+        <h3>{{ astronaut?.name }}</h3>
+        @if (astronaut?.careerStartDate) {
+          <span class="astronaut-badge" title="Active Astronaut">🚀</span>
+        }
+      </div>
+      <span class="rank">{{ astronaut?.currentRank || 'Civilian' }}</span>
     </div>
   </div>
 
   <div class="card-body">
-    <div class="info-row">
-      <span class="label">ID</span>
-      <span class="value">{{ astronaut?.personId }}</span>
-    </div>
     <div class="info-row">
       <span class="label">Duty Title</span>
       <span class="value">{{ astronaut?.currentDutyTitle }}</span>
@@ -27,7 +28,7 @@
     <div class="info-row">
       <span class="label">Career Start</span>
       <span class="value">{{
-        $safeNavigationMigration(astronaut?.careerStartDate) | date: 'shortDate'
+        astronaut?.careerStartDate | date: 'shortDate'
       }}</span>
     </div>
   </div>
