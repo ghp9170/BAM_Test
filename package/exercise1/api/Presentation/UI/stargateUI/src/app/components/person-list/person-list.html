@@ -1,0 +1,20 @@
+<div class="space-container">
+  <div class="header-actions">
+    <h2 class="space-header text-2xl">Person Roster</h2>
+    <app-rocket-launch (rosterUpdated)="refreshRoster()"></app-rocket-launch>
+  </div>
+
+  <div class="cards-container">
+    @if ((astronauts | async)?.people?.length) {
+      @for (person of (astronauts | async)?.people; track person.name) {
+        <app-person-card
+          class="cursor-pointer"
+          [astronaut]="person"
+          (click)="onCardClick(person)"
+        ></app-person-card>
+      }
+    } @else {
+      <p class="no-data-text">No people found in this sector...</p>
+    }
+  </div>
+</div>

@@ -1,0 +1,54 @@
+::ng-deep body {
+  margin: 0;
+  padding: 0;
+  background-color: #050505;
+  background-image:
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 3px);
+  background-size: 200px 200px, 150px 150px, 250px 250px, 100px 100px;
+  background-position:
+    calc(0px + var(--mouse-x, 0) * -0.02) calc(0px + var(--mouse-y, 0) * -0.02),
+    calc(40px + var(--mouse-x, 0) * -0.05) calc(60px + var(--mouse-y, 0) * -0.05),
+    calc(130px + var(--mouse-x, 0) * -0.1) calc(20px + var(--mouse-y, 0) * -0.1),
+    calc(70px + var(--mouse-x, 0) * -0.2) calc(90px + var(--mouse-y, 0) * -0.2);
+  color: #e0e0e0;
+  background-attachment: fixed;
+}
+
+.space-container {
+  padding: 30px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #2a2a36;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.space-header {
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.no-data-text {
+  color: #8892b0;
+  font-style: italic;
+}
